@@ -59,7 +59,7 @@ Caller.prototype.$startRoom = function($room,$name) {
 
 
 var caller = new Caller();
-var url = 'http://hackrtc.herokuapp.com/';
+var url = 'https://hackrtc.herokuapp.com/';
 caller.$connection(url);
 var socket = caller.$socket;
 

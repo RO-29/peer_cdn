@@ -152,7 +152,7 @@ border-radius:50% !important;
   $('#sh').hide();
   hangup();
   $('#ins').html('');
-  location.replace("http://192.168.43.6:3030");
+  location.replace("http://hackrtc.herokuapp.com/");
   })
   $('#startButton').click(function(){
   $('#nav_room').html('Logged in Room '+$('#roomName').val());
