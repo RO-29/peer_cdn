@@ -1,0 +1,107 @@
+<html>
+<head>
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/hint.css/1.3.0/hint.min.css">
+ <link rel="stylesheet" href="/static/style.css">
+ <style>
+ body{
+ 
+  background: #433931 no-repeat center center fixed;
+  /* Old browsers */
+  background-image: radial-gradient(circle at 50% 50%, #433931, #1e1916);
+  background-image: -webkit-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  background-image: -moz-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  background-image: -ms-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  background-image: -o-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  min-height: 100%; }
+ }
+ 
+ </style>
+</head>
+
+<body>
+
+<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+  <b><font color="white">USERS</b>
+  <div id="users"></div>
+</div>
+<div id="center">
+
+<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+  <div id="conversation"></div>
+  <input id="data" style="width:300px;height:50px" />
+  <input type="button" id="datasend" value="send" />
+   <div  id ="ft-icon"><br>Upload File</div>
+		<form action="/upload" id="ft-upload-form" method="POST" enctype="multipart/form-data">
+		<input type="file" id="ft-file" name="uploads" />
+		<div class="ft-progress">
+        <div class="ft-bar"></div >
+	    <div id="ft-response"></div>
+        </form>
+</div>
+
+      
+  </div>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script src="/static/js/jquery.custom.form.min.js"></script>
+  <script src="/static/js/upload.js"></script>
+  <script src="/static/js/JSON.min.js"></script>
+ 
+  <script>
+  var socket = io.connect('http://172.16.92.216:8080');
+
+  socket.on('connect', function(){
+    socket.emit('adduser', prompt("What's your name?"));
+  });
+
+  socket.on('updatechat', function (username, data) {
+    $('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+  });
+
+  socket.on('updateusers', function(data) {
+    $('#users').empty();
+    $.each(data, function(key, value) {
+      $('#users').append('<div>' + key + '</div>');
+    });
+  });
+
+  $(function(){
+    $('#datasend').click( function() {
+      var message = $('#data').val();
+      $('#data').val('');
+      socket.emit('sendchat', message);
+    });
+
+    $('#data').keypress(function(e) {
+      if(e.which == 13) {
+        $(this).blur();
+        $('#datasend').focus().click();
+      }
+    });
+  });
+</script> 
+<script>
+$('document').ready(function(){
+
+$('#ft-response').bind('DOMNodeInserted DOMNodeRemoved', function(event) {
+    if (event.type == 'DOMNodeInserted') {
+        //alert('Content added! Current content:' + '\n\n' + this.innerHTML);
+		$('#data').val(this.innerHTML);
+
+
+    }
+        //$('#datasend').focus().click();	
+});
+
+/*$('ft-response').bind("DOMSubtreeModified",function(){
+var te = $("#ft-response").val()
+alert("changed!");
+if(te)
+ alert(te);});*/
+
+})
+
+</script>
+  </body>
+ </html>

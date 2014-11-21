@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  
+<style>
+.video_link {
+    position:absolute;
+    cursor:pointer;
+    z-index:1000;
+}
+
+#videoPlayer {
+    position:absolute;
+    top: 70px;
+    left:100px;
+    max-width:150px;
+    max-height:150px;
+    display:none;
+    background: yellow;
+    border:50% solid yellow;
+    border-radius:50% !important;
+    -moz-border-radius:50% !important;
+}
+  
+</style>
+  
+  
+</head>
+<body>
+<div id="video1" class="video_link">Video 1 - BranFerren &nbsp&nbsp<b>6:15</b>
+
+</div>
+<div id="videoPlayer_wrapper">
+    <video id="videoPlayer" autoplay="autoplay"></video>
+</div>
+    <script src="static/js/jquery.js"></script>
+        <script src="static/js/jquery-ui.min.js"></script>
+
+
+
+<script>
+    video_player = document.getElementById('videoPlayer');
+$('#videoPlayer_wrapper').draggable();
+//$('#videoPlayer').draggable();
+
+$('#video1').click(function (e) {
+    $('#videoPlayer').css('display', 'block');
+    video_player.src = "http://download.ted.com/talks/BranFerren_2014.mp4?apikey=489b859150fc58263f17110eeb44ed5fba4a3b22";
+    video_player.load();
+    video_player.play();
+});
+
+$('#videoPlayer').on('mousedown', function (e) {
+
+    var wrapper = $('#videoPlayer_wrapper'),
+        rect = wrapper[0].getBoundingClientRect(),
+        y = e.clientY - rect.top;
+
+    if (y > $('#videoPlayer')[0].height - 40) {
+       // wrapper.draggable('disable');
+    }
+});
+$('#videoPlayer').on('mouseup', function (e) {
+    $('#videoPlayer_wrapper').draggable('enable');
+});
+</script>>
+</body>
+</html>

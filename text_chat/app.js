@@ -1,0 +1,108 @@
+var express = require('express')
+  , app = express()
+  , http = require('http')
+  , server = http.createServer(app)
+  , io = require('socket.io').listen(server)
+  , url = require("url")
+  , multipart = require("multipart")
+  , sys = require("sys")
+  , fs = require('fs')
+  , Dropbox = require('dropbox');
+var bodyparser = require('body-parser');
+ server.listen(8080);
+
+app.use(bodyparser());
+
+var client = new Dropbox.Client({
+  "key": "i4k8ntm9iknsus1",
+  "secret": "oup4sk4ym637n12",
+  "token": "1Fdjw_eWPi0AAAAAAAAAAd8OB9bvxGsQCRAixr-YuZRYoQBte8mhc13nEQtAOmPm",
+  "uid": "240865268"
+});
+
+
+/*Sets up the Initial DropboxFlow We have set the static token here , Not really a cool|clean way .if you want the client to use his own DPB , Delete the token ,Set your own Oauth flow*/
+client.authenticate({interactive:false},function (error, client) {
+    if (error) {
+        console.log(error);
+    }
+	
+    if (client.isAuthenticated()) {
+        console.log(client.credentials())
+    }
+
+});
+
+/* File upload Module..  'f' reads the file sent By client and it is written to Dropbox By client.writeFile method!*/
+app.post('/upload', function (req, res) {
+    var f = req.files.uploads;
+	var dbx_file_stat;
+	var short_url;
+	
+    console.log("File Uploading!\n "+f.name);
+    fs.readFile(f.path, function (error, data) {
+        if (error) {
+            return console.log(error);
+        }
+
+        client.writeFile(f.name, data, function (error, stat) {
+            if (error) {
+                return console.log(error);
+            }
+            //stopReportingProgress();
+
+            client.makeUrl(f.name, {downloadHack:true},function (error,url) {
+
+                if (error) {
+
+                    return console.log(error);
+                }
+			
+				client.stat(f.name,function(error,stat){
+				 
+			    dbx_file_stat = {name:stat.name,Icon:stat.typeIcon,version:stat.versionTag,mimeType:stat.mimeType,size:stat.size,humansize:stat.humanSize,hasIcon:stat.hasThumbnail,long_url:url.url};
+				  
+				  console.log(dbx_file_stat);
+			    
+				})
+				 res.type('text/plain');
+
+				 res.send({name:stat.name,Icon:stat.typeIcon,version:stat.versionTag,mimeType:stat.mimeType,size:stat.size,humansize:stat.humanSize,hasIcon:stat.hasThumbnail,long_url:url.url});
+     			 res.end();
+            });
+			
+			
+        });
+
+    });
+})
+
+app.use('/static', express.static(__dirname + '/static'));
+
+
+app.get('/', function (req, res) {
+  res.sendfile(__dirname+'/index.html');
+});
+
+var usernames = {};
+
+io.sockets.on('connection', function (socket) {
+
+  socket.on('sendchat', function (data) {
+    io.sockets.emit('updatechat', socket.username, data);
+  });
+
+  socket.on('adduser', function(username){
+    socket.username = username;
+    usernames[username] = username;
+    socket.emit('updatechat', 'SERVER', 'you have connected');
+    socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
+    io.sockets.emit('updateusers', usernames);
+  });
+
+  socket.on('disconnect', function(){
+    delete usernames[socket.username];
+    io.sockets.emit('updateusers', usernames);
+    socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+  });
+});

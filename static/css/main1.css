@@ -1,0 +1,467 @@
+html {
+  height:100%;
+  width:100%;
+  margin:0;
+  padding:0;
+  font-size:62.5%;
+  font-family:helvetica,arial,freesans,clean,sans-serif;
+  overflow:hidden;
+}
+
+body {
+  color:#FFFFFF;
+  height:100%;
+  width:100%;
+  margin:0;
+  padding:0;
+  background-color:#111111;
+}
+
+header {
+  height:5rem;
+  width:300px;
+}
+
+header > h1 {
+  margin:0 0 0 3rem;
+  line-height:4.8rem;
+}
+
+h1 {
+  font-size:2.5rem;
+  font-weight:normal;
+  font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+section {
+  display:flex;
+  flex-direction:column;
+  position:absolute;
+  top:5rem;
+  bottom:0px;
+  width:100%;
+}
+
+p {
+  margin:0;
+  font-size:1.9rem;
+  font-weight:normal;
+}
+
+.white-link:link {
+  color:#FFFFFF;
+}
+
+.white-link:visited {
+  color:#FFFFFF;
+}
+
+.white-link:hover {
+  color:#FFFFFF;
+}
+
+.white-link:active {
+  color:#FFFFFF;
+}
+
+p.micro {
+  font-size:1.3rem;
+}
+
+div.form {
+  display:flex;
+  flex:none;
+  justify-content:center;
+}
+
+#callSection {
+  display:flex;
+  flex:none;
+}
+
+input[type="text"] {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 3.8rem;
+  resize: none;
+  padding: 0 1.2rem;
+  font-size: 1.8rem;
+  line-height: 3.8rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 0.3rem;
+  box-shadow: none; /* override the box-shadow from the system (performance issue) */
+  background: #fff;
+}
+
+#which_room {
+  width:50%;
+  max-width:200px;
+}
+
+button, .button {
+  height: 3.8rem;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  background: linear-gradient(to top,#AAAAAA,#FFFFFF);
+  border: 0.1rem solid #a6a6a6;
+  border-radius: 0.2rem;
+  font-family:helvetica,arial,freesans,clean,sans-serif;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 3.4rem;
+  color: #333333;
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0 rgba(255,255,255,0.3);
+  text-decoration: none;
+  outline: none;
+}
+
+#startButton, #shareButton, #leaveButton {
+  width:25%;
+  max-width:100px;
+}
+
+#callButton, #hangupButton {
+  max-width:50%;
+  width:50%;
+}
+
+button:active, .button:active {
+  border-color: #008AAA;
+  background: #008AAA;
+  background-size: auto 100%;
+  color: #333333;
+}
+
+button[disabled], .button[disabled] {
+  background: #E7E7E7;
+  border-color: #C7C7C7;
+  color: #C7C7C7;
+  text-shadow: none;
+}
+
+div.form p {
+  position:relative;
+  margin:0;
+  width:75%;
+  max-width:300px;
+}
+
+div.form p input + button#clear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3rem;
+  height: 3.8rem;
+  padding: 0;
+  border: none;
+  font-size: 0;
+  opacity:0.6;
+  background: transparent url('img/clear.png') no-repeat 50% 50% / 1.7rem auto;
+  visibility:visible;
+}
+
+div.form p input:invalid + button#clear {
+  pointer-events: none;
+  visibility:hidden;
+}
+
+#room_name {
+  font-style:italic;
+}
+
+#arrow {
+  position:absolute;
+  top:10px;
+  right:5px;
+}
+
+#main {
+  width:100%;
+  flex:auto;
+  display:flex;
+  flex-direction:row;
+}
+
+#videoContainer {
+  flex:0 0 100%;
+  display:flex;
+  position:relative;
+}
+
+#localVideo {
+  position:absolute;
+  z-index:1;
+  top:0;
+  left:0;
+  max-width:20%;
+  max-height:20%;
+  margin:0;
+  padding:0;
+}
+
+#remoteVideo {
+  margin:0;
+  padding:0;
+  flex:auto;
+}
+
+/*style for the menu button*/
+.option-menu {
+  position:absolute;
+  z-index:2;
+  top:0;
+  right:0;
+  background-color:#222222;
+  display:inline-block;
+  width:3rem;
+  height:3rem;
+  padding:1rem;
+}
+
+.option-menu span, .option-menu span:after, .option-menu span:before {
+  background-color:#FFFFFF;
+  width:100%;
+  height:0.2rem;
+}
+
+.option-menu span {
+  position:relative;
+  display:block;
+  margin-top:1.4rem;
+}
+
+.option-menu span:after, .option-menu span:before {
+  content:" ";
+  position:absolute;
+}
+
+.option-menu span:before {
+  top:-0.7rem;
+}
+
+.option-menu span:after {
+  top:0.7rem;
+}
+
+.option-menu.active span {
+  background-color:#222222;
+}
+
+.option-menu.active span:before {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  top:0;
+}
+
+.option-menu.active span:after {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  top:0;
+}
+/*-------------------------------*/
+
+aside {
+  display:flex;
+  flex-direction:column;
+  flex:0 1 300px;
+  min-width:240px;
+  color:#FFFFFF;
+  background-color:#222222;
+  overflow-y:auto;
+}
+
+.option-header {
+  font-size:1.7rem;
+  height:3.8rem;
+  line-height:3.4rem;
+  padding:0 0 0 2rem;
+  flex:0 0 auto;
+}
+
+#callOptions, #videoSize {
+  display:flex;
+  flex-direction:column;
+  flex:0 0 auto;
+  padding:0 0.5rem;
+}
+
+#videoSize > label, #videoSize > button {
+  flex:1 0 auto;
+  margin:0.1rem 0;
+}
+
+input[type='checkbox'], input[type='radio'] {
+  display:none;
+}
+
+#changeSize ~ label > span {
+  display:inline-block;
+  vertical-align:middle;
+  font-size:1.7rem;
+}
+
+#changeSize ~ label > span::after {
+  content:'Enlarge';
+}
+
+#changeSize:checked ~ label > span::after {
+  content:'Shrink';
+}
+
+#callOptions > label {
+  flex:1 0 auto;
+  margin:0.1rem 0;
+}
+
+#callOptions input[disabled] + label {
+  background: #E7E7E7;
+  border-color: #C7C7C7;
+  color: #C7C7C7;
+  text-shadow: none;
+}
+
+#callOptions input:checked + label {
+  background:#008AAA;
+  box-shadow:inset 2px 2px 4px #333333;
+}
+
+#callOptions input:checked[disabled] + label {
+  background:#48A0B4;
+  color:#474747;
+  box-shadow:inset 2px 2px 4px #333333;
+}
+
+footer {
+  display:none;
+}
+
+#spinner {
+  position:absolute;
+  top:50%; /*fallback code*/
+  top:calc(50% - 1.5rem);
+  right:50%; /*fallback code*/
+  right:calc(50% - 1.5rem);
+}
+
+progress:not([value]) {
+  background: url('img/default@2x.png') no-repeat center center / 100% auto;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  display: inline-block;
+  vertical-align: middle;
+  display:none;
+  z-index:10;
+}
+
+.animated {
+  -webkit-animation: 1.2s rotate infinite steps(25);
+  animation: 1.2s rotate infinite steps(25);
+}
+
+progress:not([value])::-moz-progress-bar {
+  background: none;
+}
+
+progress:not([value])::-webkit-progress-bar {
+  background: none;
+}
+
+/* Animations */
+@-webkit-keyframes rotate {
+  from { -webkit-transform: rotate(1deg); }
+  to   { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(1deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/*.hidden class should be the last to overwrite any*/
+/*display:block in ohter css*/
+.hidden {
+  display:none;
+}
+
+.slide-left {
+  justify-content:flex-start;
+}
+
+.slide-right {
+  justify-content:flex-end;
+}
+
+@media all and (min-width:800px) {
+
+  footer {
+    display:block;
+    position:absolute;
+    bottom:0;
+    height:40px;
+    padding:10px;
+  }
+
+  .banner {
+    display:block;
+    background-image:url('../img/forkme.png');
+    width:100px;
+    height:100px;
+    border:0;
+    position:absolute;
+    top:0;
+    right:0;
+    z-index:10;
+  }
+
+  section {
+    bottom:60px;
+  }
+
+  .option-menu {
+    display:none;
+  }
+
+  div.form {
+    order:0;
+    justify-content:flex-start;
+  }
+
+  #main {
+    order:2;
+  }
+
+  #videoContainer {
+    flex:auto;
+  }
+
+  #callSection {
+    order:1;
+  }
+
+  #callButton, #hangupButton {
+    max-width:200px;
+  }
+
+}
+
+@media all and (max-height:300px) {
+
+  header, aside, #option_button {
+    display:none;
+  }
+
+  section {
+    top:0;
+  }
+}

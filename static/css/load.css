@@ -1,0 +1,40 @@
+div.ex
+{
+width:200px;
+padding:10px 40px;
+background:#dddddd;
+border:3px solid #a1a1a1;
+border-radius:45px;
+margin-left:540px;
+margin-top:200px;
+text-shadow: 1px 1px 3px #421e42;
+font-size: 20px;
+
+}
+div.ex1
+{
+width:200px;
+padding:10px 40px;
+background:#dddddd;
+border:3px solid #a1a1a1;
+border-radius:45px;
+margin-left:540px;
+margin-top:80px;
+text-shadow: 1px 1px 3px #421e42;
+font-size: 20px;
+}
+
+
+
+body{
+
+background: #433931 no-repeat center center fixed;
+  
+background-image:url("../img/back.jpg");
+background-size:800px;
+background-position:left top;
+background-repeat:no-repeat;
+
+
+
+}

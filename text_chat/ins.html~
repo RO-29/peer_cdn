@@ -1,0 +1,33 @@
+<html>
+<head>
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/hint.css/1.3.0/hint.min.css">
+
+ <style>
+ body{
+ 
+  background: #433931 no-repeat center center fixed;
+  /* Old browsers */
+  background-image: radial-gradient(circle at 50% 50%, #433931, #1e1916);
+  background-image: -webkit-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  background-image: -moz-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  background-image: -ms-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  background-image: -o-radial-gradient(50% 50%, circle, #433931, #1e1916);
+  min-height: 100%; }
+ }
+ 
+ </style>
+</head>
+
+<body>
+
+ <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+ 
+<script>
+  var socket = io.connect('http://192.168.56.1:8080');
+
+  socket.on('tr', function(data){
+    alert("hey");
+    console.log(data);
+  });
+</body>

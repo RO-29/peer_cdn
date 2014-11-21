@@ -1,0 +1,112 @@
+var express = require('express'),
+    nunjucks = require('nunjucks'),
+    http = require("http"),
+    url = require("url"),
+    multipart = require("multipart"),
+    sys = require("sys")
+    fs = require('fs'),
+    Dropbox = require('dropbox');
+
+var app = express();
+app.use(express.bodyParser());
+
+var client = new Dropbox.Client({
+  "key": "cmaxb1qhw6byslk",
+  "secret": "nhki36ncb7j7gmi",
+  "token": 'jUh7UpaPBbQAAAAAAAAK_ppDT_TTCO1YFFVczZmi4fUkCFZH_JYJbF6ol6nLJtGf'
+
+ 
+});
+
+
+//client.authDriver(new Dropbox.AuthDriver.NodeServer());
+/*Sets up the Initial DropboxFlow We have set the static token here , Not really a cool|clean way .if you want the client to use his own DPB , Delete the token ,Set your own Oauth flow*/
+client.authenticate({interactive:true},function (error, client) {
+    if (error) {
+        console.log(error);
+    }
+	
+    if (client.isAuthenticated()) {
+        console.log("Dropbox Credentials::"+client.credentials());
+        
+    }
+
+
+});
+
+
+var jinjEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader('templates'));
+var uploadDirectory = __dirname + '/uploads';
+
+
+
+
+app.get('/', function (REQ, RES) {
+
+    VAR T = JINJENV.GETTEMPLATE('INDEX.HTML');
+	VAR RESPONSE = T.RENDER({});
+	RES.SEND(RESPONSE);
+});
+
+/* FILE UPLOAD MODULE..  'F' READS THE FILE SENT BY CLIENT AND IT IS WRITTEN TO DROPBOX BY CLIENT.WRITEFILE METHOD!*/
+APP.POST('/UPLOAD', FUNCTION (REQ, RES) {
+    VAR FILES = REQ.FILES.UPLOADS;
+	VAR DBX_FILE_STAT;
+	VAR SHORT_URL;
+	
+    CONSOLE.LOG("FILE UPLOADING!\N ");
+    CONSOLE.LOG(F);
+
+    FOR(F IN FILES){
+     FS.READFILE(F.PATH, FUNCTION (ERROR, DATA) {
+        IF (ERROR) {
+            RETURN CONSOLE.LOG(ERROR);
+        }
+
+        CLIENT.WRITEFILE(F.NAME, DATA, FUNCTION (ERROR, STAT) {
+            IF (ERROR) {
+                RETURN CONSOLE.LOG(ERROR);
+            }
+            //STOPREPORTINGPROGRESS();
+
+            CLIENT.MAKEURL(F.NAME, {DOWNLOADHACK:TRUE},FUNCTION (ERROR,URL) {
+
+                IF (ERROR) {
+
+                    RETURN CONSOLE.LOG(ERROR);
+                }
+					
+				CLIENT.STAT(F.NAME,FUNCTION(ERROR,STAT){
+				 
+			    DBX_FILE_STAT = {NAME:STAT.NAME,ICON:STAT.TYPEICON,VERSION:STAT.VERSIONTAG,MIMETYPE:STAT.MIMETYPE,SIZE:STAT.SIZE,HUMANSIZE:STAT.HUMANSIZE,HASICON:STAT.HASTHUMBNAIL,LONG_URL:URL.URL};
+				  
+				  CONSOLE.LOG(DBX_FILE_STAT);
+			    
+				})
+				 RES.TYPE('TEXT/PLAIN');
+
+				 RES.SEND({NAME:STAT.NAME,ICON:STAT.TYPEICON,VERSION:STAT.VERSIONTAG,MIMETYPE:STAT.MIMETYPE,SIZE:STAT.SIZE,HUMANSIZE:STAT.HUMANSIZE,HASICON:STAT.HASTHUMBNAIL,LONG_URL:URL.URL});
+
+                 //RES.END();
+                 //RES.WRITE("FILE UPLOADED!");
+				 RES.END();
+            });
+			
+			
+        });
+
+    });
+    
+  })
+
+
+
+app.use('/static', express.static(__dirname + '/static'));
+
+app.listen(8080);
+console.log("Running on port *:8080");
+
+
+
+
+

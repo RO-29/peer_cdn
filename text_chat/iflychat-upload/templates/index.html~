@@ -1,0 +1,26 @@
+<html>
+<head>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/hint.css/1.3.0/hint.min.css">
+	<link rel="stylesheet" href="/static/style.css">
+	<title></title>
+</head>
+<body>
+	<div id="center">
+		<h2>File_upload</h2>
+	    <div  id ="iflychat-ft-icon"><br>Upload File</div>
+		<form action="/upload" id="iflychat-ft-upload-form" method="POST" enctype="multipart/form-data">
+		<input type="file" id="iflychat-ft-file" name="uploads" >
+		<div class="iflychat-ft-progress">
+        <div class="iflychat-ft-bar"></div >
+        <div class="iflychat-ft-percent">0%</div >
+    </div>
+	<img src ="/static/iflychat-ft-cancel.png" id="iflychat-ft-cancel" "/>
+    <div id="iflychat-ft-response"></div>
+		</form>
+	</div>
+    <script src="/static/js/jquery.1.4.4.min.js"></script>
+	<script src="/static/js/jquery.custom.form.min.js"></script>
+	<script src="/static/js/upload.js"></script>
+	<script src="/static/js/JSON.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+<style>
+.centre{
+position:fixed!important;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.video
+{
+display: block;
+max-width:250px;
+max-height:250px;
+background: yellow;
+border:50% solid yellow;
+border-radius:50% !important;
+-moz-border-radius:50% !important;
+z-index=1000 !important;
+}
+
+
+
+</style>
+</head>
+
+
+<html>
+    <body>
+     <div id="vi">
+    <video id="video" class="video" src="http://upload.wikimedia.org/wikipedia/commons/7/7e/2010-07-14-Blitze-Zeitlupe-1-08.ogg" autoplay="autoplay" > Test Video </video>
+    </div>
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/jquery-ui.min.js"></script>
+
+        <script>
+            
+    $(document).ready(function() {
+        
+        $('#vi').draggable({ scroll:false });
+    
+        $('.video').on('mousedown', function (e) {
+        var wrapper = $('#vi'),
+        rect = wrapper[0].getBoundingClientRect(),
+        y = e.clientY - rect.top;
+        
+
+    if (y > $('.video')[0].height - 40) {
+        console.log("y > ->"+y);
+        //wrapper.draggable('disable');
+    }
+    });
+    $('.video').on('mouseup', function (e) {  
+        $('#vi').draggable('enable');
+        });
+
+        $("#vi").click(function(){
+          //$("#video").css("position",$("#video").css("position")=="absolute" ? "fixed!important":"absolute");
+          $(".video").toggleClass("centre");
+          var toggleWidth = $(".video").css("max-width") == "250px" ? "500px" : "250px";
+          var width = toggleWidth;
+          var toggleheight = $(".video").css("max-height") == "250px" ? "500px" : "250px";
+          var height = toggleheight
+          $(".video").css("max-width",width);
+          $(".video").css("max-height",height);
+            
+        });
+        
+      
+    
+   })
+   </script>
+    
+    </body>
+</html>
+
+

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Video Chat-WebRTC</title>
+<link rel="stylesheet" href="/static/css/main.css" />
+<link rel="stylesheet" href="/static/css/font.css">
+<link rel="stylesheet" href="/static/css/font2.css">
+<link rel="stylesheet" href="/static/css/font3.css">
+<link rel="stylesheet" href="/static/css/bootstrap.css">
+<link rel="stylesheet" href="/static/css/style.css">
+
+<style>
+
+#convo{
+ 
+ display:none;
+ z-index:10022!important
+}
+.centre{
+position:fixed!important;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.local
+{
+display: block;
+float: top;
+max-width:250px;
+max-height:250px;
+background: yellow;
+border:50% solid yellow;
+border-radius:50% !important;
+-moz-border-radius:50% !important;
+}
+
+.remote
+{
+display: block;
+max-width:250px;
+max-height:250px;
+background: yellow;
+border:50% solid yellow;
+border-radius:50% !important;
+-moz-border-radius:50% !important;
+}
+.side{
+ float:bottom;
+ width:100px;
+ border-right:1px solid black;
+ height:300px;
+ padding:10px;
+ overflow:scroll-y;
+ display: none;
+
+}
+.side p{
+ top:50px;
+ left:10px;
+ position: absolute;
+}
+</style>
+</head>
+<body>
+ <div class="side">
+  <b><font color="white"><p>USERS</p></b>
+  <div id="users"></div></font>
+</div>
+<div id="convo" style="float:right"> 
+<div><textarea id="conversation" name="" style="width:300px" cols="10" rows="4"></textarea></div>
+  <input id="data" type="text" style="width:300px;height:50px"value="Ask your question here" onFocus="if(this.value=='Ask your question here') { this.value=''; }" onBlur="if(this.value == ''){this.value='Ask your question here';}"/>
+  <br>
+   <font color:black>
+  <input type="button" style="color:orange" id="datasend" value="send" /></font>
+  </div>
+<div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container-fluid">
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+              <div class="nav-collapse">
+                <ul class="nav">
+                  <li class="active"><a href="">Home</a></li>
+                  <li id="hang"><a href="#">HangUp</a></li>
+		  <li id="share"><a href="#">Share</a></li>
+		  <li id="name"><a href="#"></a></li>
+				  
+                  </ul>
+                <p class="navbar-text pull-right"id ="nav_room"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of the Navbar -->
+  <div id="local"></div>
+  <br> <br> <br> <br>
+  <div id="remote"></div>
+  <div class="container" id="room_join">
+  <br><br><br><br><br>
+   <div id="insideContainer">
+      <h1><font color="white">Enter Details</font> </h1></div>
+    <div id="roomContainer">
+      <input id="roomName" type="text" placeholder="Some room Name..."/><br><br>
+<br>  <input id="Name" type="text" placeholder="Your Name" style="background-color: transparent;
+  border-style: solid;
+  border-width: 2px 2px 2px 2px;
+  border-color: #88889a;
+  color: #ffffff;
+  font-size: 40px;
+  line-height: 100%;
+  text-align: center;
+  height: 60px;
+  width: 200px;
+  box-sizing: border-box;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;"/><br><br><br>
+      <a href="#" id="startButton">Join</a>
+       <div id="infoBox">
+        <hr />
+        <p>When You click on join room a sharable Instruction will be generated</p><p> which you have to share with your friend to connect!.</p>
+		<br />
+       </div>
+    </div>
+   </div>
+   </div>
+  <div id="spinner">
+  <progress id="progressBar"></progress>
+</div>
+ 
+ 
+    <script src="/static/js/jquery.js"></script>
+   <script src="/static/js/lib/adapter.js"></script>
+   <script src="/socket.io/socket.io.js"></script>
+   <script src="/static/js/library.js"></script>
+   <script src="/static/js/main.js"></script>
+   <script src="/static/js/jquery-ui.min.js"></script>
+   <script src="/static/js/drag_local.js"></script>
+      <script src="/static/js/drag_remote.js"></script>
+
+  <script> 
+  $(document).ready(function(){
+  
+  $('#sh').hide();
+ 
+  $('#hang').click(function(){
+  $('#sh').hide();
+  hangup();
+  $('#ins').html('');
+  location.replace("http://hackrtc.herokuapp.com/");
+  })
+  $('#startButton').click(function(){
+  $('#nav_room').html('Logged in Room '+$('#roomName').val());
+  $('#name').html('Welcome  '+$('#Name').val());
+  $('#sh').show();
+  $('#room_join').children().fadeOut();
+  $('.side').css('display','block');
+  $('#convo').css('display','block');
+  join_room($('#roomName').val(),$('#Name').val(),{video: true, audio: true});  
+
+  })
+  
+  
+  
+  })
+  </script>
+</body>
+</html>

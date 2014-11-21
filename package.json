@@ -1,0 +1,26 @@
+{
+  "name": "video_chat",
+  "description": "Video_chat for Actozen",
+  "keywords": [
+    "javascript",
+    "server",
+    "video chat"
+  ],
+  "author": {
+    "name": "Rohit Jain"
+  },
+  "engines": {
+    "node": ">=0.10.26"
+  },
+  "dependencies": {
+    "socket.io": "==0.9.16",
+    "express": ">=4.6.1",
+    "multipart": ">=0.1.5",
+    "logfmt": "=1.1.2",
+    "body-parser": ">=1.5.0",
+    "redis": ">=0.12.1",
+    "pg": ">=3.4.1",
+    "knex": "^0.6.22",
+    "moment": "^2.8.2"
+  }
+}
