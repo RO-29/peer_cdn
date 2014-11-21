@@ -76,6 +76,11 @@ var turn_stun = {
     io.set('transports', ['websocket']);
   });
 
+  app.get('/',function(req,res){
+
+   res.send('video.html');
+
+  })
   //Get Info of logged users
   app.get('/info', function (req, res) {
 
