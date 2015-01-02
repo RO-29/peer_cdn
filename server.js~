@@ -23,6 +23,11 @@
   }
 });
   
+require('coffee-script');
+var express = require('express'),
+  sharejs = require('../src'),
+  hat = require('hat').rack(32, 36);
+
   http.listen(port, function() {
     console.log('Listening on *:' + port);
 });
@@ -34,6 +39,7 @@
   table.integer('valid');
 }).exec();*/
 
+app.use(express.static(__dirname + '/../examples'));
 app.use('/static', express.static(__dirname + '/static'));
   app.get('/', function (req, res) {
   res.sendfile(__dirname+'/video.html');
@@ -42,11 +48,31 @@ app.use('/static', express.static(__dirname + '/static'));
 //To Allow Cross-Origin AJax request
 app.use(cors());
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-origin', ApiEndPoint);
+    res.setHeader('Access-Control-Allow-origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With', 'content-type');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     next();
 });
+
+var options = {
+  db: {type: 'none'},
+  browserChannel: {cors: '*'},
+  auth: function(client, action) {
+    // This auth handler rejects any ops bound for docs starting with 'readonly'.
+    if (action.name === 'submit op' && action.docName.match(/^readonly/)) {
+      action.reject();
+    } else {
+      action.accept();
+    }
+  }
+};
+console.log("Options: ", options);
+// Lets try and enable redis persistance if redis is installed...
+try {
+  require('redis');
+  options.db = {type: 'redis'};
+} catch (e) {}
+
 //We are hiding our turnServer uRL somehow so that it's not visible to naked eyes but still anyone can print it's valuse in Browser console anytime
 var turn_stun = {
     'iceServers': [{
@@ -58,17 +84,9 @@ var turn_stun = {
         credential: "xxx"
     }]
 };
-  /*var urlRoom = false;
-  app.get('/room/:stanza', function(req, res) {
-    console.log("room!");
-    console.log('request for room: ' + req.params.stanza);
-    if (req.params.stanza) {
-      urlRoom = req.params.stanza;
-    }
-    res.redirect('/test.html');
-  });*/
 
- 
+
+  console.error('Version ' + sharejs.version + ': ' + err.stack);
   app.use(function() {
     app.use(express.static(__dirname + '/'));
   });
@@ -90,6 +108,50 @@ var turn_stun = {
    res.send('video.html');
 
   })
+
+// Attach the sharejs REST and Socket.io interfaces to the app
+sharejs.app.attach(app, options);
+
+var renderer = require('../examples/_static');
+app.get('/static/:docName', function(req, res, next) {
+  var docName;
+  docName = req.params.docName;
+  renderer(docName, app.model, res, next);
+});
+
+var wiki = require('../examples/_wiki');
+app.get('/wiki/?', function(req, res, next) {
+  res.writeHead(301, {location: '/wiki/Main'});
+  res.end();
+});
+app.get('/wiki/:docName', function(req, res, next) {
+  var docName;
+  docName = req.params.docName;
+  wiki(docName, app.model, res, next);
+});
+
+app.get('/editor/?', function(req, res, next) {
+  var docName;
+  docName = hat();
+  res.writeHead(303, {location: '/editor/index.html#' + docName});
+  res.write('');
+  res.end();
+});
+app.get('/pad/?', function(req, res, next) {
+  var docName;
+  docName = hat();
+  res.writeHead(303, {location: '/pad/pad.html#' + docName});
+  res.write('');
+  res.end();
+});
+
+app.get('/?', function(req, res, next) {
+  res.writeHead(302, {location: '/index.html'});
+  res.end();
+}); 
+process.title = 'sharejs'
+process.on('uncaughtException', function (err) {
+  console.error('An error has occurred. Please file a ticket here: https://github.com/josephg/ShareJS/issues');
   //Get Info of logged users
   app.get('/info', function (req, res) {
 

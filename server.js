@@ -23,6 +23,8 @@
   }
 });
   
+
+
   http.listen(port, function() {
     console.log('Listening on *:' + port);
 });
@@ -34,6 +36,7 @@
   table.integer('valid');
 }).exec();*/
 
+app.use(express.static(__dirname + '/../examples'));
 app.use('/static', express.static(__dirname + '/static'));
   app.get('/', function (req, res) {
   res.sendfile(__dirname+'/video.html');
@@ -47,6 +50,7 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     next();
 });
+
 //We are hiding our turnServer uRL somehow so that it's not visible to naked eyes but still anyone can print it's valuse in Browser console anytime
 var turn_stun = {
     'iceServers': [{
@@ -58,17 +62,9 @@ var turn_stun = {
         credential: "xxx"
     }]
 };
-  /*var urlRoom = false;
-  app.get('/room/:stanza', function(req, res) {
-    console.log("room!");
-    console.log('request for room: ' + req.params.stanza);
-    if (req.params.stanza) {
-      urlRoom = req.params.stanza;
-    }
-    res.redirect('/test.html');
-  });*/
 
- 
+
+  console.error('Version ' + sharejs.version + ': ' + err.stack);
   app.use(function() {
     app.use(express.static(__dirname + '/'));
   });
@@ -90,22 +86,8 @@ var turn_stun = {
    res.send('video.html');
 
   })
-  //Get Info of logged users
-  app.get('/info', function (req, res) {
 
-
-    knex('usernames').select().where({
-        room: req.query.room
-    }).exec(function (err, results) {
-
-        if (err)
-            res.send(err + " --->1");
-        else
-            res.send(results);
-    });
-
-});
-
+// Attach the sharejs REST and Socket.io interfaces to the app
   function log(socket) {
     var array = ['>>> Message from server: '];
     for (var i = 1; i < arguments.length; i++) {
