@@ -64,7 +64,7 @@ var turn_stun = {
 };
 
 
-  console.error('Version ' + sharejs.version + ': ' + err.stack);
+ 
   app.use(function() {
     app.use(express.static(__dirname + '/'));
   });
