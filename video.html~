@@ -136,7 +136,6 @@ border-radius:50% !important;
  
  
     <script src="/static/js/jquery.js"></script>
-   <script type="text/javascript" src="/static/js/jquery.color.js"></script>
    <script src="/static/js/lib/adapter.js"></script>
    <script src="/socket.io/socket.io.js"></script>
    <script src="/static/js/library.js"></script>
