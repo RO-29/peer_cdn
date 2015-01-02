@@ -9,6 +9,7 @@
   var moment = require('moment');
    var multipart = require("multipart")
   , sys = require("sys")
+  ,cors = require('cors')
   , fs = require('fs')
   , Dropbox = require('dropbox');
 
@@ -38,6 +39,14 @@ app.use('/static', express.static(__dirname + '/static'));
   res.sendfile(__dirname+'/video.html');
 });
 
+//To Allow Cross-Origin AJax request
+app.use(cors());
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With', 'content-type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    next();
+});
 //We are hiding our turnServer uRL somehow so that it's not visible to naked eyes but still anyone can print it's valuse in Browser console anytime
 var turn_stun = {
     'iceServers': [{
