@@ -9,9 +9,7 @@
 <link rel="stylesheet" href="/static/css/font3.css">
 <link rel="stylesheet" href="/static/css/bootstrap.css">
 <link rel="stylesheet" href="/static/css/style.css">
-<link rel="stylesheet" href="/static/css/initial.css" type="text/css" />
-<link rel="stylesheet" href="/static/css/application.css" type="text/css" />
-<link type="text/css" rel="stylesheet" href="/public/stylesheets/prettify.css"></link>
+
 
 <style>
 
