@@ -13,7 +13,7 @@ html, body {
 #center { margin: 25px 0 0 20%; }
 
 
-body { font-size: 100%; color: #333; background: url(../images/body_bk.png) #F0F0F0 repeat-x top left; font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif; }
+body { font-size: 100%; color: #333; background: url(body_bk.png) #F0F0F0 repeat-x top left; font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif; }
 
 
 .container {
