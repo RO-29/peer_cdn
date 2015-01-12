@@ -76,6 +76,7 @@ border-radius:50% !important;
    <font color:black>
   <input type="button" style="color:orange" id="datasend" value="send" /></font>
   </div>
+
 <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container-fluid">
@@ -98,10 +99,13 @@ border-radius:50% !important;
           </div>
         </div>
         <!-- End of the Navbar -->
+
+
   <div id="local"></div>
   <br> <br> <br> <br>
   <div id="remote"></div>
   <div class="container" id="room_join">
+  <iframe src="http://localhost:8000/editor" style="display:none">
   <br><br><br><br><br>
    <div id="insideContainer">
       <h1><font color="white">Enter Details</font> </h1></div>

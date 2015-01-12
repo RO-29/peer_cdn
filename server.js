@@ -36,7 +36,7 @@
   table.integer('valid');
 }).exec();*/
 
-app.use(express.static(__dirname + '/../examples'));
+
 app.use('/static', express.static(__dirname + '/static'));
   app.get('/', function (req, res) {
   res.sendfile(__dirname+'/video.html');
